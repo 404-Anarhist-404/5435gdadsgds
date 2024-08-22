@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Спасибо❤️</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="https://aviso.bz/?r=lordship" target="_blank" class="banner-link">
+            <div class="banner">
+                <img src="https://aviso.bz/statica/pictures/A-468.gif" alt="Рекламный баннер">
+            </div>
+        </a>
+    </header>
+
+    <hr class="divider">
+
+    <main>
+        <div class="content">
+            <div class="support-message">
+                <p>Когда вы смотрите рекламу, переходите по баннерам и проявляете активность, вы очень сильно нас поддерживаете. Спасибо!</p>
+            </div>
+            <div class="timer-container">
+                <div id="timer" class="timer"></div>
+                <p id="timer-message" class="timer-message">Нажмите на кнопку, чтобы перейти на сайт с модом</p>
+                <a href="#" class="download-btn" id="download-btn" onclick="startTimer(event)">Скачать мод</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.youtube.com" target="_blank" class="social-icon">
+                <img src="https://img.icons8.com/ios/50/ffffff/youtube-play.png" alt="YouTube">
+            </a>
+            <a href="https://www.tiktok.com" target="_blank" class="social-icon">
+                <img src="https://img.icons8.com/ios/50/ffffff/tiktok.png" alt="TikTok">
+            </a>
+            <a href="https://telegram.org" target="_blank" class="social-icon">
+                <img src="https://img.icons8.com/ios/50/ffffff/telegram-app.png" alt="Telegram">
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Функция для запроса уникальной ссылки
+        async function getUniqueLink(modId) {
+            const response = await fetch(`https://yourserver.com/generate-link/${modId}`);
+            const data = await response.json();
+            return data.link;
+        }
+
+        async function startTimer(event) {
+            event.preventDefault(); // Предотвращение перехода по ссылке до завершения таймера
+            const timer = document.getElementById('timer');
+            const timerMessage = document.getElementById('timer-message');
+            const downloadBtn = document.getElementById('download-btn');
+            let width = 0;
+
+            const modId = 'sildurs'; // Установите нужный ID мода
+            const uniqueLink = await getUniqueLink(modId); // Получение уникальной ссылки
+
+            downloadBtn.disabled = true;
+
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    timer.style.display = 'none';
+                    timerMessage.style.display = 'none';
+                    downloadBtn.disabled = false;
+                    // Переход по уникальной ссылке
+                    setTimeout(() => {
+                        window.location.href = uniqueLink;
+                    }, 1000); // Задержка 1 секунда
+                } else {
+                    width++;
+                    timer.style.width = width + '%';
+                    timer.style.background = `linear-gradient(90deg, rgba(255,105,180, ${width / 100}), rgba(0,250,154, ${width / 100}))`;
+                }
+            }, 50); // 5 секунд / 100 шагов = 50 миллисекунд на шаг
+        }
+    </script>
+</body>
+</html>
